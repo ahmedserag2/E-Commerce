@@ -36,10 +36,25 @@ class Order{
     var productsOrderedJson = orderJson['ProductsOrdered'] as List<dynamic>;
     //List<ProductSelected> productsOrdered = [];
     productsOrderedJson.forEach((element) {
+      //print(element);
       var productOrderedJson = List.from(element.values);
-      int quantity = productOrderedJson[1];
-      Map<dynamic,dynamic> productJson = Map.from(productOrderedJson[0]);
-      productsOrdered.add(ProductSelected(product: Product.fromJson(productJson,2),numOfItem: quantity));
+      print('got in');
+      int? quantity;
+      Map<dynamic,dynamic>? productJson;
+      if(productOrderedJson[0].runtimeType == 1.runtimeType)
+      {
+        quantity = productOrderedJson[0];
+        productJson = Map.from(productOrderedJson[1]);
+      }
+      else {
+        quantity = productOrderedJson[1];
+        productJson = Map.from(productOrderedJson[0]);
+      }
+
+      //print(productOrderedJson[0]);
+
+
+      productsOrdered.add(ProductSelected(product: Product.fromJson(productJson!,2),numOfItem: quantity!));
     });
     Order o = Order(
         userId: userId,
